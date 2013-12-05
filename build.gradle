@@ -1,0 +1,31 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+
+group = 'com.dotcms'
+sourceCompatibility = '1.6'
+version = '1.0'
+
+repositories {
+    maven {
+        url "http://repo.dotcms.com/artifactory/libs-release"
+    }
+}
+
+dependencies {
+    compile 'log4j:log4j:1.2.16'
+    compile 'commons-collections:commons-collections:3.2'
+    compile 'backport-util-concurrent:backport-util-concurrent:3.1'
+}
+
+
+// command to upload it: gradle -PrepoUser=<your user name> -PrepoPass=<yourpassword>  uploadArchives
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url:'http://repo.dotcms.com/artifactory/libs-release-local') {
+                authentication(userName: repoUser, password: repoPass)
+            }
+        }
+    }
+}
