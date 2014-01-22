@@ -17,7 +17,7 @@ package org.apache.log4j.appender;
 
 import org.apache.log4j.spi.LoggingEvent;
 
-import edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 
 /**
  * Double-ended queue used to buffer {@link LoggingEvent}s for asynchronous

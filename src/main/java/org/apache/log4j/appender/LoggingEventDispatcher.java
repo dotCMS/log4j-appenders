@@ -27,16 +27,6 @@ import org.apache.log4j.spi.LoggingEvent;
  * the head of a deque; uses a dispatch thread to take events from the tail of
  * the deque and forward them to attached appenders.
  * <p>
- * At construction time, if the configuration parameter <b>UseConcurrentBackport</b>
- * is true, this class searches the CLASSPATH for the class
- * {@link edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingDeque},
- * typically be found in the <a
- * href="http://backport-jsr166.sourceforge.net/">SourceForge
- * backport-util-concurrent</a> JAR. If the <tt>LinkedBlockingDeque</tt>
- * class is found, then the backport-util-concurrent implementations of the
- * {@link LoggingEventDispatchArbiter} and the {@link LoggingEventDeque} are
- * instantiated and used by this dispatcher. Otherwise the default Java 1.3
- * compatible implementations will be used.
  * 
  * @author <a href="mailto:simon_park_mail AT yahoo DOT co DOT uk">Simon Park</a>
  * @version 1.6
@@ -258,32 +248,14 @@ final class LoggingEventDispatcher implements Runnable {
   private void initDispatchImpl() {
     LoggingEventDeque loggingEventDeque = null;
     LoggingEventDispatchArbiter loggingEventDispatchArbiter = null;
-    boolean backport = this.properties.isUseConcurrentBackport();
-    if (backport) {
-      try {
-        Class
-            .forName("edu.emory.mathcs.backport.java.util.concurrent.LinkedBlockingDeque");
-        loggingEventDeque = new LoggingEventBlockingDeque(this.properties);
-        // loggingEventDeque = new LoggingEventConcurrentLinkedQueue();
-        loggingEventDispatchArbiter = new ConcurrentLoggingEventDispatchArbiter();
-      } catch (ClassNotFoundException e) {
-        LogLog.warn(Thread.currentThread().getName()
-            + " unable to find backport-util-concurrent class"
-            + ", defaulting to core Java concurrency", e);
-        backport = false;
-      }
-    }
-    if (!backport) {
       loggingEventDeque = new LoggingEventLinkedList();
       // loggingEventDeque = new LoggingEventFifoBuffer();
       loggingEventDispatchArbiter = new SimpleLoggingEventDispatchArbiter(
           this.properties, loggingEventDeque);
-    }
     this.deque = loggingEventDeque;
     this.dispatchArbiter = loggingEventDispatchArbiter;
     LogLog.debug(Thread.currentThread().getName() + " created "
-        + (backport ? "backport-util-concurrent" : "default")
-        + " asynchronous dispatch implementation");
+        + "default asynchronous dispatch implementation");
   }
 
   private boolean isDispatching() {

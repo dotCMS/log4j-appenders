@@ -17,10 +17,10 @@ package org.apache.log4j.appender;
 
 import org.apache.log4j.spi.LoggingEvent;
 
-import edu.emory.mathcs.backport.java.util.concurrent.ConcurrentLinkedQueue;
-import edu.emory.mathcs.backport.java.util.concurrent.atomic.AtomicInteger;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.Condition;
-import edu.emory.mathcs.backport.java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Double-ended queue used to buffer {@link LoggingEvent}s for asynchronous
