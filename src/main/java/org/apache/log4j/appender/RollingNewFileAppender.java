@@ -31,7 +31,7 @@ public class RollingNewFileAppender extends RollingFileAppender {
 
                 try {
 
-                	String separator = Pattern.quote(System.getProperty("file.separator"));
+                	String separator = Pattern.quote(File.separator);
                     String[] folderList = fileName.split( "logs" + separator );
                     String newFileName = folderList[0].concat( "logs" + File.separator + hostName + File.separator ).concat( folderList[1] );
                     System.out.println( "New filename: " + newFileName );
