@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class RollingNewFileAppender extends RollingFileAppender {
 
@@ -30,7 +31,8 @@ public class RollingNewFileAppender extends RollingFileAppender {
 
                 try {
 
-                    String[] folderList = fileName.split( "logs" + File.separator );
+                	String separator = Pattern.quote(File.separator);
+                    String[] folderList = fileName.split( "logs" + separator );
                     String newFileName = folderList[0].concat( "logs" + File.separator + hostName + File.separator ).concat( folderList[1] );
                     System.out.println( "New filename: " + newFileName );
                     rolling = new RollingFileAppender( this.layout, newFileName, this.fileAppend );
